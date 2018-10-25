@@ -704,21 +704,6 @@ export namespace ios {
     }
 
     export function layoutView(controller: UIViewController, owner: View): void {
-        if (majorVersion >= 11) {
-            // apply parent page additional top insets if any. The scenario is when there is a parent page with action bar.
-            const parentPage = getAncestor(owner, "Page");
-            if (parentPage) {
-                const parentPageInsetsTop = parentPage.viewController.view.safeAreaInsets.top;
-                const currentInsetsTop = controller.view.safeAreaInsets.top;
-                const additionalInsetsTop = parentPageInsetsTop - currentInsetsTop;
-
-                if (additionalInsetsTop > 0) {
-                    const additionalInsets = new UIEdgeInsets({ top: additionalInsetsTop, left: 0, bottom: 0, right: 0 });
-                    controller.additionalSafeAreaInsets = additionalInsets;
-                }
-            }
-        }
-
         let layoutGuide = controller.view.safeAreaLayoutGuide;
         if (!layoutGuide) {
             traceWrite(`safeAreaLayoutGuide during layout of ${owner}. Creating fallback constraints, but layout might be wrong.`,
